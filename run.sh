@@ -35,20 +35,7 @@ npm_publish() {
 
   for try in $(seq "$retries"); do
     info "try: ${try}"
-
-    if [ -n "${NPM_CONFIG_TAG}" ]; then
-      info "npm publish . --tag ${NPM_CONFIG_TAG}"
-      npm publish . --tag "${NPM_CONFIG_TAG}" --unsafe-perm && return
-
-    elif [ -n "${NPM_VERSION_PRERELEASE}" ]; then
-      info "npm publish . --tag ${WERCKER_GIT_BRANCH}"
-      npm publish . --tag "${WERCKER_GIT_BRANCH}" --unsafe-perm && return
-
-    else
-      info "npm publish . --tag latest"
-      npm publish . --tag latest --unsafe-perm && return
-
-    fi
+    npm publish --unsafe-perm
   done
 
   fail "npm publish failed with status code $?"
